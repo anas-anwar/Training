@@ -1,0 +1,629 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Charity Account Details") }}{% endblock %}
+{% block header %}<h1>{{ _("Charity Account Details") }}</h1>{% endblock %}
+
+{% block page_sidebar %}
+{% include "templates/pages/web_sidebar.html" %}
+{% endblock %}
+
+{% block page_content %}
+{%if is_charity_account %}
+<div class="form-layout">
+    <div class="form-message text-muted small hidden"></div>
+    <div class="form-page">
+        <div class="row form-section form-dashboard hidden visible-section">
+            <div class="section-head"><a class="h6 uppercase">Dashboard</a><span class="octicon collapse-indicator octicon-chevron-up"></span></div>
+            <div class="section-body">
+                <div class="form-dashboard-wrapper">
+                    <div class="progress-area hidden form-dashboard-section"></div>
+                    <div class="form-heatmap hidden form-dashboard-section">
+                        <div id="heatmap-charity_account" class="heatmap"></div>
+                        <div class="text-muted small heatmap-message hidden"></div>
+                    </div>
+                    <div class="form-graph form-dashboard-section hidden"></div>
+                    <div class="form-stats form-dashboard-section hidden">
+                        <div class="row"></div>
+                    </div>
+                    <div class="form-links form-dashboard-section hidden">
+                        <div class="transactions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section shaded-section">
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width hide-control" data-fieldtype="Data" data-fieldname="__newname"
+                            title="__newname">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;"></label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input"></div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="email_address"
+                            title="email_address">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Email Address')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="email_address" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.email_address}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="username"
+                            title="username">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Username')}}</label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="username" placeholder="" data-doctype="Charity Account"
+                                            disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.username}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="frappe-control input-max-width hide-control" data-fieldtype="Link" data-fieldname="account_user"
+                            title="account_user">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;"></label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input"></div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('Applying Organization')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="organization_name"
+                            title="organization_name">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Name')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="organization_name" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.organization_name}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Select" data-fieldname="organization_type"
+                            title="organization_type">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Type')}}</label> <a class="btn-translation no-decoration text-muted" title="Open Translation">
+                                        <i class="fa fa-globe"></i>
+                                    </a></div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><select type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Select" data-fieldname="organization_type" placeholder=""
+                                            data-doctype="Charity Account" disabled="">
+                                            <option></option>
+                                            <option value="Educational">Educational</option>
+                                            <option value="Social">Social</option>
+                                            <option value="Health">Health</option>
+                                        </select></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{_(charity.organization_type)}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="organization_specialty"
+                            title="organization_specialty">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Specialty')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="organization_specialty" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.organization_specialty}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Select" data-fieldname="organization_activity"
+                            title="organization_activity">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Activity')}}</label> <a class="btn-translation no-decoration text-muted" title="Open Translation">
+                                        <i class="fa fa-globe"></i>
+                                    </a></div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><select type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Select" data-fieldname="organization_activity" placeholder=""
+                                            data-doctype="Charity Account" disabled="">
+                                            <option></option>
+                                            <option value="Profitable">Profitable</option>
+                                            <option value="Non Profitable">Non Profitable</option>
+                                        </select></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{_(charity.organization_activity)}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section shaded-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('License Details')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="license_number"
+                            title="license_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('License Number')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="license_number" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{(charity.license_number)}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Date" data-fieldname="license_expire_date"
+                            title="license_expire_date">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('License Expire Date')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" data-fieldtype="Date"
+                                            data-fieldname="license_expire_date" placeholder="" data-doctype="Charity Account"
+                                            disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.license_expire_date}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="supervisory_party"
+                            title="supervisory_party">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Supervisory Party')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="supervisory_party" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{_(charity.supervisory_party)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('Organization Address')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="governorate"
+                            title="governorate">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Governorate')}}</label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="governorate" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{_(charity.governorate)}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="downtown_neighborhood"
+                            title="downtown_neighborhood">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Downtown / Neighborhood')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="downtown_neighborhood" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{(charity.downtown_neighborhood)}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control" data-fieldtype="HTML" data-fieldname="location" title="location">
+                            <div id="googleMap" style="width: 100%;"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="city" title="city">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('City')}}</label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="city" placeholder="" data-doctype="Charity Account"
+                                            disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.city}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control" data-fieldtype="Small Text" data-fieldname="detailed_address" title="detailed_address">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Detailed Address')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><textarea type="text"
+                                            autocomplete="off" class="input-with-feedback form-control bold"
+                                            data-fieldtype="Small Text" data-fieldname="detailed_address" placeholder=""
+                                            data-doctype="Charity Account" style="height: 150px;" disabled=""></textarea></div>
+                                    <div class="control-value like-disabled-input for-description bold" style="">{{charity.detailed_address}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Float" data-fieldname="latitude"
+                            title="latitude">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Latitude')}}</label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" data-fieldtype="Float"
+                                            data-fieldname="latitude" placeholder="" data-doctype="Charity Account"
+                                            disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.latitude}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Float" data-fieldname="longitude"
+                            title="longitude">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Longitude')}}</label>
+                                </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" data-fieldtype="Float"
+                                            data-fieldname="longitude" placeholder="" data-doctype="Charity Account"
+                                            disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.longitude}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section shaded-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">Contact Info</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="phone_number"
+                            title="phone_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Phone Number')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="phone_number" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.phone_number}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="mobile_number"
+                            title="mobile_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Mobile Number')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="mobile_number" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.mobile_number}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('Organization Management')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="organization_manager_name"
+                            title="organization_manager_name">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Manager Name')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="organization_manager_name"
+                                            placeholder="" data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.organization_manager_name}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="organization_manager_mobile_number"
+                            title="organization_manager_mobile_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Manager Mobile Number')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="organization_manager_mobile_number"
+                                            placeholder="" data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.organization_manager_mobile_number}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section shaded-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('Coordinator Info')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="coordinator_name"
+                            title="coordinator_name">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Coordinator Name')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="coordinator_name" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.coordinator_name}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="coordinator_mobile_number"
+                            title="coordinator_mobile_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Coordinator Mobile Number')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="coordinator_mobile_number"
+                                            placeholder="" data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.coordinator_mobile_number}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('Bank Details')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="bank_name"
+                            title="bank_name">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Bank Name')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="bank_name" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.bank_name}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="iban_number"
+                            title="iban_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('IBAN Number')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="iban_number" placeholder=""
+                                            data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.iban_number}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Data" data-fieldname="organization_name_at_bank"
+                            title="organization_name_at_bank">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Organization Name At Bank')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input" style="display: none;"><input type="text" autocomplete="off"
+                                            class="input-with-feedback form-control bold" maxlength="140"
+                                            data-fieldtype="Data" data-fieldname="organization_name_at_bank"
+                                            placeholder="" data-doctype="Charity Account" disabled=""></div>
+                                    <div class="control-value like-disabled-input bold" style="">{{charity.organization_name_at_bank}}</div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row form-section visible-section shaded-section">
+            <div class="col-sm-12">
+                <h6 class="form-section-heading uppercase">{{_('Attachments')}}</h6>
+            </div>
+            <div class="section-body">
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Attach" data-fieldname="upload_iban_number"
+                            title="upload_iban_number">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('IBAN Number Document')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input">
+                                        <div class="attached-file" style="display: block;">
+                                            <div class="ellipsis">
+                                                <i class="fa fa-paperclip"></i>
+                                                <a class="attached-file-link" target="_blank" href="{{charity.upload_iban_number}}">{{charity.upload_iban_number}}</a>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Attach" data-fieldname="license_document_image"
+                            title="license_document_image">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('License Document Image')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input">
+                                        <div class="attached-file" style="display: block;">
+                                            <div class="ellipsis">
+                                                <i class="fa fa-paperclip"></i>
+                                                <a class="attached-file-link" target="_blank" href="{{charity.license_document_image}}">{{(charity.license_document_image)}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-column col-sm-6">
+                    <form>
+                        <div class="frappe-control input-max-width" data-fieldtype="Attach" data-fieldname="board_of_directors_list"
+                            title="board_of_directors_list">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Board of Directors List')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input">
+                                        <div class="attached-file" style="display: block;">
+                                            <div class="ellipsis">
+                                                <i class="fa fa-paperclip"></i>
+                                                <a class="attached-file-link" target="_blank" href="{{charity.board_of_directors_list}}">{{charity.board_of_directors_list}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width" data-fieldtype="Attach" data-fieldname="last_year_achievements"
+                            title="last_year_achievements">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;">{{_('Last Year Achievements')}}</label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input">
+                                        <div class="attached-file" style="display: block;">
+                                            <div class="ellipsis">
+                                                <i class="fa fa-paperclip"></i>
+                                                <a class="attached-file-link" target="_blank" href="{{charity.last_year_achievements}}">{{charity.last_year_achievements}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frappe-control input-max-width hide-control" data-fieldtype="Link" data-fieldname="amended_from"
+                            title="amended_from">
+                            <div class="form-group">
+                                <div class="clearfix"> <label class="control-label" style="padding-right: 0px;"></label> </div>
+                                <div class="control-input-wrapper">
+                                    <div class="control-input"></div>
+                                    <div class="control-value like-disabled-input" style="display: none;"></div>
+                                    <p class="help-box small text-muted hidden-xs"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}
+{% endblock %}

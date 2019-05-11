@@ -1,0 +1,22 @@
+{
+ "content": null, 
+ "creation": "2019-05-02 04:47:33.187257", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "idx": 0, 
+ "modified": "2019-05-02 04:47:39.413297", 
+ "modified_by": "Administrator", 
+ "module": "Charity", 
+ "name": "charity-details", 
+ "owner": "Administrator", 
+ "page_name": "charity-details", 
+ "roles": [
+  {
+   "role": "Guest"
+  }
+ ], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "system_page": 0
+}
